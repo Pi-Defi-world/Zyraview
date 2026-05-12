@@ -1,6 +1,5 @@
 'use client';
 import { useState, useEffect, useCallback } from 'react';
-import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 
@@ -31,7 +30,11 @@ interface PoolsApiResponse {
   _links: { self: { href: string }; next?: { href: string }; prev?: { href: string } };
 }
 
-export default function PoolTab() {
+interface PoolTabProps {
+  onLoad?: (pools: Pool[]) => void;
+}
+
+export default function PoolTab({ onLoad }: PoolTabProps) {
   const [pools, setPools] = useState<Pool[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -57,11 +60,29 @@ export default function PoolTab() {
     try {
       setLoading(true);
       setError(null);
+      // Prefer snapshot (server prefetch)
+      try {
+        const r = await fetch('/api/v2/home/assets-pools');
+        const j = await r.json();
+        const pools = j?.data?.pools;
+        if (j?.success && pools?._embedded?.records) {
+          const records = (pools as PoolsApiResponse)._embedded?.records || [];
+          setPools(records);
+          onLoad?.(records);
+          setLoading(false);
+          return;
+        }
+      } catch {
+        /* fallback */
+      }
+
       const apiUrl = 'https://api.testnet.minepi.com/liquidity_pools?limit=200&order=desc';
       const cacheKey = `pools_${btoa(apiUrl)}`;
       const cached = getCached(cacheKey);
       if (cached) {
-        setPools(cached._embedded?.records || []);
+        const records = cached._embedded?.records || [];
+        setPools(records);
+        onLoad?.(records);
         setLoading(false);
         return;
       }
@@ -69,13 +90,15 @@ export default function PoolTab() {
       if (!response.ok) throw new Error('Failed to fetch liquidity pools');
       const data: PoolsApiResponse = await response.json();
       setCached(cacheKey, data);
-      setPools(data._embedded?.records || []);
+      const records = data._embedded?.records || [];
+      setPools(records);
+      onLoad?.(records);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An error occurred');
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [onLoad]);
 
   useEffect(() => { fetchPools(); }, [fetchPools]);
 

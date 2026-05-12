@@ -19,11 +19,11 @@ export const metadata: Metadata = {
     template: '%s | Zyraview'
   },
   description: 'Zyraview is a data-driven platform for Pi Network enthusiasts, offering resources, events, and a vibrant ecosystem to connect and grow together.',
-  viewport: {
-    //themeColor: '#050519', // Move theme color here
-    width: 'device-width',
-    initialScale: 1
-  }
+};
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -34,7 +34,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <Script id="pi-init" strategy="beforeInteractive">
         {`
           const Pi = window.Pi;
-          Pi.init({ version: "2.0" });
+          Pi.init({ version: "2.0", sandbox: true });
         `}
       </Script>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>

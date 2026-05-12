@@ -3,6 +3,10 @@
  */
 
 function resolveApiBaseUrl(): string {
+  // In the browser, prefer same-origin Next.js route handlers as a proxy layer.
+  if (typeof window !== 'undefined') {
+    return '';
+  }
   const raw = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000').trim();
   if (/^https?:\/\//i.test(raw)) {
     return raw.replace(/\/$/, '');

@@ -73,6 +73,7 @@
     "rehype-highlight": "^7.0.2",
     "remark-gfm": "^4.0.1",
     "stellar-sdk": "^8.2.3",
+    "swr": "2.3.3",
     "tailwind-merge": "^3.3.0",
     "tailwindcss-animate": "^1.0.7",
     "uuid": "^11.1.0",

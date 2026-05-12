@@ -13,13 +13,13 @@ const config: Config = {
       colors: {
         brand: {
           dark: {
-            DEFAULT: "#0a0f0c",
-            muted: "#111816",
-            border: "#1a2420",
+            DEFAULT: "#0B0D0C",
+            muted: "#0F1211",
+            border: "#1B2421",
           },
           neon: {
-            DEFAULT: "#22c55e",
-            dim: "#16a34a",
+            DEFAULT: "#4CD964",
+            dim: "#2EBB56",
           },
           stone: {
             50: "#f5f5f0",

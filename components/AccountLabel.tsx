@@ -3,7 +3,6 @@ import Link from "next/link";
 import Image from "next/image";
 import CopyIcon from "@/components/copyIcon";
 import { useAddressContext } from "@/context/AddressContext";
-import { horizon } from "@/api/horizon";
 import {
   Tooltip,
   TooltipContent,
@@ -61,29 +60,8 @@ const AccountLabel = ({
             identifier: account
           });
         } else {
-          // If not in local database, try to fetch from external APIs
-          try {
-            // Try to get account details from Horizon API
-            const accountDetails = await horizon.getAccountDetails(account);
-            
-            // Check if this is a valid account (has some activity)
-            if (accountDetails && accountDetails.sequence && parseInt(accountDetails.sequence) > 0) {
-              // This is a valid account, but we don't have a name for it
-              // You could potentially check other APIs here for additional info
-              
-              // For now, just show the address without a name
-              setAddressInfo(null);
-            } else {
-              // Invalid or new account
-              setAddressInfo(null);
-            }
-          } catch (apiError: any) {
-            // Only log non-400/404 errors to reduce console noise
-            if (apiError?.response?.status !== 400 && apiError?.response?.status !== 404) {
-              console.error('Error fetching account details from API:', apiError);
-            }
-            setAddressInfo(null);
-          }
+          // Not labeled: don't hit Horizon just to label UI.
+          setAddressInfo(null);
         }
       } catch (error) {
         console.error('Error looking up address:', error);

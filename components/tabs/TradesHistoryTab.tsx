@@ -14,7 +14,11 @@ interface Trade {
 }
 interface TradesApiResponse { _links: { self: { href: string }; next?: { href: string }; prev?: { href: string } }; _embedded: { records: Trade[] } }
 
-export default function TradesHistoryTab() {
+interface TradesHistoryTabProps {
+  onLoad?: (data: TradesApiResponse) => void;
+}
+
+export default function TradesHistoryTab({ onLoad }: TradesHistoryTabProps) {
   const [tradesData, setTradesData] = useState<TradesApiResponse | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -51,15 +55,35 @@ export default function TradesHistoryTab() {
   const fetchTrades = async (url?: string) => {
     try {
       setLoading(true);
-      const apiUrl = url || 'https://api.testnet.minepi.com/trades?limit=50&order=desc';
+      if (!url) {
+        try {
+          const r = await fetch('/api/v2/home/latest-trades');
+          const j = await r.json();
+          if (j?.success && j?.data?.records?.length) {
+            const payload = {
+              _embedded: { records: j.data.records as Trade[] },
+              _links: j.data.horizonLinks || { self: { href: '' } },
+            } as TradesApiResponse;
+            setTradesData(payload);
+            onLoad?.(payload);
+            setLoading(false);
+            return;
+          }
+        } catch {
+          /* fallback */
+        }
+      }
+
+      const apiUrl = url || 'https://api.mainnet.minepi.com/trades?limit=50&order=desc';
       const cacheKey = `trades_${btoa(apiUrl)}`;
       const cached = getCached(cacheKey);
-      if (cached) { setTradesData(cached); setLoading(false); return; }
+      if (cached) { setTradesData(cached); onLoad?.(cached); setLoading(false); return; }
       const response = await fetch(apiUrl);
       if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
       const data = await response.json();
       setCached(cacheKey, data);
       setTradesData(data);
+      onLoad?.(data);
     } catch (err) {
       setError(`Failed to fetch trades data: ${err instanceof Error ? err.message : String(err)}`);
     } finally { setLoading(false); }

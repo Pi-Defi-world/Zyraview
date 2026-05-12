@@ -21,7 +21,14 @@ import {
   Calendar,
   Trophy,
   Rocket,
-  List
+  List,
+  Layers,
+  ArrowLeftRight,
+  Activity,
+  Coins,
+  Droplets,
+  TrendingUp,
+  Compass
 } from 'lucide-react';
 
 const ProfilePage: React.FC = () => {
@@ -30,6 +37,7 @@ const ProfilePage: React.FC = () => {
   const { user, isAuthenticated, logout, authenticate, isLoading } = usePiNetwork();
   const [showComingSoonModal, setShowComingSoonModal] = useState(false);
   const [showListingsDropdown, setShowListingsDropdown] = useState(false);
+  const [showExplorerDropdown, setShowExplorerDropdown] = useState(false);
 
   React.useEffect(() => {
     setHeading('Profile');
@@ -84,6 +92,15 @@ const ProfilePage: React.FC = () => {
       color: 'bg-pink-500/10 text-pink-600',
       iconColor: 'text-pink-600'
     }
+  ];
+
+  const explorerMenuItems = [
+    { title: 'Blocks', icon: Layers, href: '/block' },
+    { title: 'Transactions', icon: ArrowLeftRight, href: '/Transaction-list' },
+    { title: 'Operations', icon: Activity, href: '/operations' },
+    { title: 'Assets', icon: Coins, href: '/assets' },
+    { title: 'Liquidity Pools', icon: Droplets, href: '/pool' },
+    { title: 'Trades', icon: TrendingUp, href: '/trades-history' },
   ];
 
   const profileMenuItems = [   
@@ -251,6 +268,47 @@ const ProfilePage: React.FC = () => {
                       <div className="text-left min-w-0 flex-1">
                         <div className="font-medium text-sm sm:text-base text-foreground truncate">{item.title}</div>
                         <div className="text-xs sm:text-sm text-muted-foreground mt-0.5">{item.description}</div>
+                      </div>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Explorer Dropdown */}
+          <div className="bg-card rounded-xl sm:rounded-2xl border border-border/30 shadow-sm overflow-hidden">
+            <button
+              onClick={() => setShowExplorerDropdown(!showExplorerDropdown)}
+              className="w-full flex items-center justify-between p-4 sm:p-6 hover:bg-muted/50 transition-colors"
+            >
+              <div className="flex items-center space-x-3 sm:space-x-4 min-w-0 flex-1">
+                <Compass className="h-5 w-5 sm:h-6 sm:w-6 text-emerald-600 flex-shrink-0" />
+                <div className="text-left min-w-0 flex-1">
+                  <div className="font-semibold text-sm sm:text-base text-foreground truncate">Explorer</div>
+                  <div className="text-xs sm:text-sm text-muted-foreground mt-0.5 sm:mt-1">Browse the Pi Network</div>
+                </div>
+              </div>
+              {showExplorerDropdown ? (
+                <ChevronDown className="h-4 w-4 sm:h-5 sm:w-5 text-muted-foreground flex-shrink-0 ml-2" />
+              ) : (
+                <ChevronRight className="h-4 w-4 sm:h-5 sm:w-5 text-muted-foreground flex-shrink-0 ml-2" />
+              )}
+            </button>
+
+            {showExplorerDropdown && (
+              <div className="border-t border-border/30 bg-muted/20">
+                {explorerMenuItems.map((item, index) => (
+                  <Link
+                    key={index}
+                    href={item.href}
+                    className="block w-full hover:bg-muted/30 transition-colors"
+                    onClick={() => setShowExplorerDropdown(false)}
+                  >
+                    <div className="flex items-center space-x-3 sm:space-x-4 p-3 sm:p-4 pl-8 sm:pl-12">
+                      <item.icon className="h-4 w-4 sm:h-5 sm:w-5 text-emerald-600 flex-shrink-0" />
+                      <div className="text-left min-w-0 flex-1">
+                        <div className="font-medium text-sm sm:text-base text-foreground truncate">{item.title}</div>
                       </div>
                     </div>
                   </Link>

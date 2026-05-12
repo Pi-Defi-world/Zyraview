@@ -9,17 +9,19 @@
     color-scheme: light;
 
     /* Zyraview / Zyradex — core greens */
-    --brand-primary: 145 72% 42%;
-    --brand-primary-dark: 145 72% 32%;
+    /* Light mode primary: deeper (less bright) */
+    --brand-primary: 130 55% 44%;
+    --brand-primary-dark: 130 55% 36%;
 
     /* Light: white surfaces + green secondary accents */
-    --background: 0 0% 100%;
+    /* Unique white base (premium, slightly cool) */
+    --background: 240 20% 99%;
     --foreground: 150 25% 11%;
 
-    --card: 0 0% 100%;
+    --card: 240 20% 99%;
     --card-foreground: 150 25% 11%;
 
-    --popover: 0 0% 100%;
+    --popover: 240 20% 99%;
     --popover-foreground: 150 25% 11%;
 
     --primary: var(--brand-primary);
@@ -27,10 +29,10 @@
 
     /* Soft mint secondary (not solid dark green) */
     --secondary: 142 38% 94%;
-    --secondary-foreground: 145 65% 22%;
+    --secondary-foreground: 150 30% 14%;
 
     --accent: 142 42% 92%;
-    --accent-foreground: 145 65% 22%;
+    --accent-foreground: 150 30% 14%;
 
     --muted: 150 20% 96%;
     --muted-foreground: 150 12% 38%;
@@ -69,35 +71,37 @@
 .dark {
   color-scheme: dark;
 
-  --background: 0 0% 4%;
+  /* Unique black base (premium, slightly green) */
+  --background: 150 10% 4%;
   --foreground: 142 20% 96%;
 
-  --card: 0 0% 7%;
+  --card: 150 10% 7%;
   --card-foreground: 142 20% 96%;
 
-  --popover: 0 0% 8%;
+  --popover: 150 10% 8%;
   --popover-foreground: 142 20% 96%;
 
-  --primary: 145 65% 48%;
+  /* Dark mode primary: keep more vibrant for contrast */
+  --primary: 130 65% 57%;
   --primary-foreground: 0 0% 100%;
 
-  --secondary: 145 28% 14%;
+  --secondary: 150 14% 12%;
   --secondary-foreground: 142 35% 92%;
 
-  --accent: 145 32% 18%;
+  --accent: 150 14% 16%;
   --accent-foreground: 142 40% 94%;
 
-  --muted: 0 0% 12%;
+  --muted: 150 6% 12%;
   --muted-foreground: 145 10% 58%;
 
   --destructive: 0 62% 48%;
   --destructive-foreground: 0 0% 100%;
 
-  --border: 145 15% 16%;
-  --input: 145 12% 18%;
-  --ring: 145 65% 48%;
+  --border: 150 10% 16%;
+  --input: 150 10% 18%;
+  --ring: var(--brand-primary);
 
-  --chart-1: 145 65% 52%;
+  --chart-1: var(--brand-primary);
   --chart-2: 152 50% 50%;
   --chart-3: 138 45% 48%;
   --chart-4: 160 40% 46%;

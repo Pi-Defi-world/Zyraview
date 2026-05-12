@@ -1,13 +1,16 @@
 import ProjectDetailWrapper from './ProjectDetailWrapper';
 import { Business } from '@/lib/types';
+import { getBackendUrl } from '@/lib/get-backend-url';
+
+export const dynamic = 'force-dynamic';
 
 async function getProjectById(id: string): Promise<Business | null> {
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || '';
+    const baseUrl = getBackendUrl();
     const [cexRes, coreTeamRes, generatedRes] = await Promise.all([
-      fetch(`${baseUrl}/api/addresses/cex`),
-      fetch(`${baseUrl}/api/addresses/core-team`),
-      fetch(`${baseUrl}/api/addresses/generated`),
+      fetch(`${baseUrl}/api/ecosystem?type=cex-addresses`),
+      fetch(`${baseUrl}/api/ecosystem?type=core-team-addresses`),
+      fetch(`${baseUrl}/api/ecosystem?type=generated-addresses`),
     ]);
 
     const [cexData, coreTeamData, generatedData] = await Promise.all([
@@ -45,34 +48,6 @@ async function getProjectById(id: string): Promise<Business | null> {
   } catch (error) {
     console.error("Error fetching project:", error);
     return null;
-  }
-}
-
-export async function generateStaticParams() {
-  try {
-    const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || '';
-    const [cexRes, coreTeamRes, generatedRes] = await Promise.all([
-      fetch(`${baseUrl}/api/addresses/cex`),
-      fetch(`${baseUrl}/api/addresses/core-team`),
-      fetch(`${baseUrl}/api/addresses/generated`),
-    ]);
-
-    const [cexData, coreTeamData, generatedData] = await Promise.all([
-      cexRes.json(),
-      coreTeamRes.json(),
-      generatedRes.json(),
-    ]);
-
-    const allIds = [
-      ...(cexData.data || []).map((item: any) => ({ id: item._id })),
-      ...(coreTeamData.data || []).map((item: any) => ({ id: item._id })),
-      ...(generatedData.data || []).map((item: any) => ({ id: item._id })),
-    ];
-
-    return allIds.filter(item => item.id);
-  } catch (error) {
-    console.error("Failed to fetch project IDs for static generation:", error);
-    return [];
   }
 }
 

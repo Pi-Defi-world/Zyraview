@@ -11,7 +11,6 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Spinner } from '@/components/ui/spinner';
 import { ProjectTransactions } from '@/components/ProjectTransactions';
 import { Business } from '@/lib/types';
-import { socialchain } from '@/api/socialchain';
 import { horizon } from '@/api/horizon';
 import { okx } from '@/api/okx';
 import { getUnlockTime, describePredicate } from '@/utils/predicate';
@@ -75,7 +74,6 @@ const ProjectDetail: React.FC<ProjectDetailProps> = ({ id, initialProject = null
   const [project, setProject] = useState<Business | null>(initialProject);
   const [loading, setLoading] = useState(!initialProject);
   const [error, setError] = useState<string | null>(null);
-  const [isScam, setIsScam] = useState(false);
   const [claimableBalance, setClaimableBalance] = useState<any[]>([]);
   const [totalLocking, setTotalLocking] = useState(0);
   const [totalClaimable, setTotalClaimable] = useState(0);
@@ -96,9 +94,8 @@ const ProjectDetail: React.FC<ProjectDetailProps> = ({ id, initialProject = null
           const piPrice = parseFloat(priceRes.idxPx);
 
           if (fetchedProject.walletAddress) {
-            const [balanceRes, scamResult, claimableRes] = await Promise.all([
+            const [balanceRes, claimableRes] = await Promise.all([
               horizon.getBalances([fetchedProject.walletAddress]),
-              socialchain.checkScamWarning(fetchedProject.walletAddress),
               horizon.getClaimableBalances(fetchedProject.walletAddress)
             ]);
 
@@ -106,9 +103,6 @@ const ProjectDetail: React.FC<ProjectDetailProps> = ({ id, initialProject = null
             const balance = balanceRes.length > 0 ? balanceRes[0].Balance : 0;
             const marketCap = balance * piPrice;
             setProject(prev => prev ? { ...prev, totalHoldings: balance, marketCap } : null);
-
-            // Process scam warning
-            if (scamResult) setIsScam(scamResult);
 
             // Process claimable balances
             setClaimableBalance(claimableRes._embedded.records);
@@ -189,7 +183,6 @@ const ProjectDetail: React.FC<ProjectDetailProps> = ({ id, initialProject = null
             <div className="flex-grow">
               <CardTitle className="text-2xl sm:text-3xl font-bold flex items-center gap-2">
                 {project.name}
-                {isScam && <Badge variant="destructive">Scam Alert</Badge>}
               </CardTitle>
               <div className="flex flex-wrap gap-2 mt-2">
                 {project.category && <Badge>{project.category}</Badge>}

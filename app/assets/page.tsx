@@ -1,171 +1,63 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
-import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from '@/components/ui/table';
-import { useLanguage } from "@/context/languagecontext";
+import { useState, useCallback } from "react";
+import AssetsTab from "@/components/tabs/AssetsTab";
+import { PageHeader } from "@/components/PageHeader";
+import { SummaryStats } from "@/components/SummaryStats";
+import { Coins, Wallet, Users, Database } from "lucide-react";
 
 interface Asset {
   asset_type: string;
   asset_code?: string;
-  asset_issuer?: string;
-  accounts?: { authorized?: number; unauthorized?: number };
-  liquidity_pools_amount?: string;
+  accounts?: { authorized?: number };
   balances?: { authorized?: string };
+  liquidity_pools_amount?: string;
   num_liquidity_pools?: number;
 }
 
 interface AssetsApiResponse {
-  _links: { self: { href: string }; next?: { href: string }; prev?: { href: string } };
   _embedded: { records: Asset[] };
 }
 
-const Assets: React.FC = () => {
-  const { t, language } = useLanguage();
-  const [assetsData, setAssetsData] = useState<AssetsApiResponse | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
-  const [searchQuery, setSearchQuery] = useState<string>("");
+export default function Assets() {
+  const [stats, setStats] = useState({ total: 0, holders: 0, pools: 0, supply: 0 });
+  const [initialLoading, setInitialLoading] = useState(true);
 
-  // 60s cache helpers
-  const CACHE_TTL_MS = 60_000;
-  const getCached = (key: string) => {
-    try {
-      const raw = localStorage.getItem(key);
-      if (!raw) return null;
-      const parsed = JSON.parse(raw);
-      if (!parsed || typeof parsed.ts !== 'number') return null;
-      if (Date.now() - parsed.ts > CACHE_TTL_MS) return null;
-      return parsed.data as AssetsApiResponse;
-    } catch { return null; }
-  };
-  const setCached = (key: string, data: any) => {
-    try { localStorage.setItem(key, JSON.stringify({ ts: Date.now(), data })); } catch {}
-  };
-
-  useEffect(() => {
-    fetchAssets();
+  const handleLoad = useCallback((data: AssetsApiResponse) => {
+    const records = data._embedded?.records || [];
+    const total = records.length;
+    const holders = records.reduce((s, a) => s + (a.accounts?.authorized || 0), 0);
+    const pools = records.reduce((s, a) => s + (a.num_liquidity_pools || 0), 0);
+    const supply = records.reduce((s, a) => s + parseFloat(a.balances?.authorized || "0"), 0);
+    setStats({ total, holders, pools, supply });
+    setInitialLoading(false);
   }, []);
 
-  useEffect(() => {
-    if (!assetsData) return;
-  }, [assetsData]);
-
-  const fetchAssets = async (url?: string) => {
-    try {
-      setLoading(true);
-      const apiUrl = url || 'https://api.testnet.minepi.com/assets?limit=100';
-      const cacheKey = `assets_${btoa(apiUrl)}`;
-      const cached = getCached(cacheKey);
-      if (cached) {
-        setAssetsData(cached);
-        setLoading(false);
-        return;
-      }
-      const response = await fetch(apiUrl);
-      if (!response.ok) throw new Error(`HTTP ${response.status}`);
-      const data: AssetsApiResponse = await response.json();
-      setCached(cacheKey, data);
-      setAssetsData(data);
-    } catch (err) {
-      setError(`Failed to fetch assets data: ${err instanceof Error ? err.message : String(err)}`);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleNextPage = () => assetsData?._links?.next && fetchAssets(assetsData._links.next.href);
-  const handlePrevPage = () => assetsData?._links?.prev && fetchAssets(assetsData._links.prev.href);
-
-  const formatNumber = (num: string | number | undefined): string => {
-    const raw = Array.isArray(num as any) ? (num as any)[0] : num;
-    const n = typeof raw === 'string' ? parseFloat(raw) : (raw ?? 0);
-    if (!isFinite(n)) return '0';
-    return n.toLocaleString(language, { minimumFractionDigits: 0, maximumFractionDigits: 7 });
-  };
-
-  const getTotalSupply = (asset: Asset): string => {
-    const authorizedBalance = parseFloat(asset.balances?.authorized || '0');
-    const poolsAmount = parseFloat(asset.liquidity_pools_amount || '0');
-    const total = authorizedBalance + poolsAmount;
-    return total === 0 ? '0' : formatNumber(total);
-  };
-
-  const getPoolsAmount = (asset: Asset): string => formatNumber(asset.liquidity_pools_amount || '0');
-  const getCirculating = (asset: Asset): string => formatNumber(asset.balances?.authorized || '0');
-  const typeLabel = (type: string) => type === 'native' ? 'Native' : (type === 'credit_alphanum4' ? 'Alpha4' : (type === 'credit_alphanum12' ? 'Alpha12' : type));
-
-  if (loading) return <div className="py-8 text-sm text-muted-foreground">Loading assets…</div>;
-  if (error) return <div className="py-8 text-red-500 text-sm">{error}</div>;
-  if (!assetsData) return <div className="py-8 text-sm">No assets data</div>;
-
-  const filtered = (assetsData._embedded?.records || []).filter(a =>
-    (a.asset_code || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
-    (a.asset_issuer || '').toLowerCase().includes(searchQuery.toLowerCase())
-  );
-
   return (
-    <div className="w-full">
-      <div className="mb-4">
-        <Input
-          placeholder={String(t('assets.search_placeholder'))}
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          className="max-w-md"
+    <div className="w-full px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-10 max-w-7xl mx-auto">
+      <PageHeader
+        title="Assets"
+        description="Browse all assets on the Pi Network — view issuers, holders, supply, and liquidity pool participation."
+      >
+        {!initialLoading && (
+          <div className="text-xs sm:text-sm text-muted-foreground whitespace-nowrap">
+            {stats.total} assets
+          </div>
+        )}
+      </PageHeader>
+
+      {!initialLoading && (
+        <SummaryStats
+          stats={[
+            { label: "Total Assets", value: stats.total.toLocaleString(), icon: <Coins className="h-4 w-4 text-emerald-600 dark:text-emerald-400" /> },
+            { label: "Total Holders", value: stats.holders.toLocaleString(), icon: <Users className="h-4 w-4 text-emerald-600 dark:text-emerald-400" /> },
+            { label: "Liquidity Pools", value: stats.pools.toLocaleString(), icon: <Database className="h-4 w-4 text-emerald-600 dark:text-emerald-400" /> },
+            { label: "Circulating Supply", value: stats.supply.toLocaleString(undefined, { maximumFractionDigits: 0 }), icon: <Wallet className="h-4 w-4 text-emerald-600 dark:text-emerald-400" /> },
+          ]}
         />
-      </div>
-      <div className="overflow-x-auto">
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Token Name</TableHead>
-              <TableHead>Type</TableHead>
-              <TableHead>Issuer</TableHead>
-              <TableHead className="text-right">Holders</TableHead>
-              <TableHead className="text-right">Total Supply</TableHead>
-              <TableHead className="text-right">In Pools</TableHead>
-              <TableHead className="text-right">Circulating</TableHead>
-              <TableHead className="text-right">Pools</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {filtered.map((asset) => (
-              <TableRow key={`${asset.asset_code}-${asset.asset_issuer}`}>
-                <TableCell>
-                  <a href={`/asset/${encodeURIComponent((asset.asset_code||'') + ':' + (asset.asset_issuer||''))}`} className="text-primary">
-                    {asset.asset_code}
-                  </a>
-                </TableCell>
-                <TableCell>{typeLabel(asset.asset_type)}</TableCell>
-                <TableCell>
-                  {asset.asset_issuer ? (
-                    <a href={`/account/${asset.asset_issuer}`} title={asset.asset_issuer} className="text-primary">
-                      <code className="text-xs">{asset.asset_issuer.slice(0, 8)}...{asset.asset_issuer.slice(-8)}</code>
-                    </a>
-                  ) : (
-                    <span className="text-muted-foreground text-xs">N/A</span>
-                  )}
-                </TableCell>
-                <TableCell className="text-right">{formatNumber(asset.accounts?.authorized || 0)}</TableCell>
-                <TableCell className="text-right">{getTotalSupply(asset)}</TableCell>
-                <TableCell className="text-right">{getPoolsAmount(asset)}</TableCell>
-                <TableCell className="text-right">{getCirculating(asset)}</TableCell>
-                <TableCell className="text-right">{asset.num_liquidity_pools || 0}</TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </div>
-      <div className="flex items-center justify-between mt-4">
-        <span className="text-xs text-muted-foreground">{t('assets.testnet_warning')}</span>
-        <div className="flex gap-2">
-          <Button variant="outline" size="sm" disabled={!assetsData._links.prev} onClick={handlePrevPage}>Previous</Button>
-          <Button variant="outline" size="sm" disabled={!assetsData._links.next} onClick={handleNextPage}>Next</Button>
-        </div>
-      </div>
+      )}
+
+      <AssetsTab onLoad={handleLoad} />
     </div>
   );
-};
-
-export default Assets;
+}

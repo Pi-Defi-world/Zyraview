@@ -24,16 +24,4 @@ export const socialchain = {
       }
     }
   },
-  checkScamWarning: async (address: string) => {
-    try {
-      const response = await api.get(`/check-scam-wallet/${address}`);
-      // alert(response.data.is_scam);
-      if (response.data.is_scam) {
-        return true;
-      }
-    } catch (error) {
-      console.error('Error fetching scam warning:', error);
-      return false;
-    }
-  }
 };

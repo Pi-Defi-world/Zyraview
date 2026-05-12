@@ -5,12 +5,14 @@ import { getCexAddresses, LabledAddress, isValidPiNetworkAddress } from '../util
 
 // ===== CONSTANTS =====
 
-const BASE_URL = 'https://api.mainnet.minepi.com';
-const BASE_URL_OWN = 'https://oracle-three-xi.vercel.app/horizon';
+const BASE_URL = process.env.NEXT_PUBLIC_HORIZON_BASE_URL || 'https://api.mainnet.minepi.com';
+const BASE_URL_OWN =
+  process.env.NEXT_PUBLIC_HORIZON_FALLBACK_URL || 'https://oracle-three-xi.vercel.app/horizon';
 
 const REQUEST_TIMEOUT = 10000; // 10 seconds
 const RETRY_ATTEMPTS = 3;
 const RETRY_DELAY = 1000; 
+const MAX_CONCURRENT_REQUESTS = Number(process.env.NEXT_PUBLIC_HORIZON_MAX_CONCURRENCY || 6);
 
 // ===== TYPE DEFINITIONS =====
 
@@ -53,7 +55,25 @@ interface CexData extends BalanceData {
 
 // ===== AXIOS CONFIGURATION =====
 
-const createApiInstance = (baseURL: string): AxiosInstance => {
+let activeRequests = 0;
+const requestQueue: Array<() => void> = [];
+
+async function acquireRequestSlot(): Promise<void> {
+  if (activeRequests < MAX_CONCURRENT_REQUESTS) {
+    activeRequests++;
+    return;
+  }
+  await new Promise<void>((resolve) => requestQueue.push(resolve));
+  activeRequests++;
+}
+
+function releaseRequestSlot(): void {
+  activeRequests = Math.max(0, activeRequests - 1);
+  const next = requestQueue.shift();
+  if (next) next();
+}
+
+const createApiInstance = (baseURL: string, fallbackBaseURL?: string): AxiosInstance => {
   const instance = axios.create({
     baseURL,
     timeout: REQUEST_TIMEOUT,
@@ -65,9 +85,11 @@ const createApiInstance = (baseURL: string): AxiosInstance => {
 
   // Request interceptor for logging
   instance.interceptors.request.use(
-    (config) => {
-      const url = `${config.baseURL}${config.url}`;
-      console.log(`🌐 API Request: ${config.method?.toUpperCase()} ${url}`);
+    async (config) => {
+      await acquireRequestSlot();
+      (config as any).__releaseSlot = true;
+      // Avoid noisy request logging on hot paths.
+      horizonMetrics.requests++;
       return config;
     },
     (error) => {
@@ -79,17 +101,54 @@ const createApiInstance = (baseURL: string): AxiosInstance => {
   // Response interceptor for error handling
   instance.interceptors.response.use(
     (response: AxiosResponse) => {
-      const url = `${response.config.baseURL}${response.config.url}`;
-      console.log(`✅ API Success: ${response.status} ${url}`);
+      if ((response.config as any).__releaseSlot) {
+        releaseRequestSlot();
+        delete (response.config as any).__releaseSlot;
+      }
+      const status = response.status;
+      if (status >= 200 && status < 300) horizonMetrics.responses2xx++;
+      else if (status === 429) horizonMetrics.responses429++;
+      else if (status >= 400 && status < 500) horizonMetrics.responses4xx++;
+      else if (status >= 500) horizonMetrics.responses5xx++;
       return response;
     },
-    (error: AxiosError) => {
+    async (error: AxiosError) => {
+      if ((error.config as any)?.__releaseSlot) {
+        releaseRequestSlot();
+        delete (error.config as any).__releaseSlot;
+      }
+      const canRetryOnFallback =
+        !!fallbackBaseURL &&
+        !!error.config &&
+        !(error.config as any).__fallbackTried &&
+        (typeof error.response?.status !== 'number' ||
+          error.response.status === 429 ||
+          error.response.status >= 500);
+      if (canRetryOnFallback && error.config) {
+        try {
+          const cfg = {
+            ...error.config,
+            baseURL: fallbackBaseURL,
+            url: error.config.url,
+          } as any;
+          cfg.__fallbackTried = true;
+          const response = await instance.request(cfg);
+          return response;
+        } catch {
+          // Let the original error handling flow continue.
+        }
+      }
       const url = error.config ? `${error.config.baseURL}${error.config.url}` : 'unknown';
       const status = error.response?.status || 'no-response';
+      if (typeof error.response?.status === 'number') {
+        const s = error.response.status;
+        if (s === 429) horizonMetrics.responses429++;
+        else if (s >= 400 && s < 500) horizonMetrics.responses4xx++;
+        else if (s >= 500) horizonMetrics.responses5xx++;
+      }
       
       if (error.response?.status === 400 || error.response?.status === 404) {
         // Don't log 400/404 as errors since they're expected for non-existent accounts
-        console.log(`ℹ️  API ${status}: ${url} (expected for non-existent accounts)`);
       } else {
         console.error(`❌ API Error ${status}: ${url}`, error.message);
       }
@@ -101,8 +160,29 @@ const createApiInstance = (baseURL: string): AxiosInstance => {
   return instance;
 };
 
-const api = createApiInstance(BASE_URL);
-const api_own = createApiInstance(BASE_URL_OWN);
+type HorizonMetrics = {
+  requests: number;
+  responses2xx: number;
+  responses4xx: number;
+  responses5xx: number;
+  responses429: number;
+};
+
+const horizonMetrics: HorizonMetrics = {
+  requests: 0,
+  responses2xx: 0,
+  responses4xx: 0,
+  responses5xx: 0,
+  responses429: 0,
+};
+
+export function getHorizonMetrics(): HorizonMetrics {
+  return { ...horizonMetrics };
+}
+
+const sharedApi = createApiInstance(BASE_URL, BASE_URL_OWN);
+const api = sharedApi;
+const api_own = sharedApi;
 
 // ===== UTILITY FUNCTIONS =====
 

@@ -22,7 +22,11 @@ interface AssetsApiResponse {
   _embedded: { records: Asset[] };
 }
 
-export default function AssetsTab() {
+interface AssetsTabProps {
+  onLoad?: (data: AssetsApiResponse) => void;
+}
+
+export default function AssetsTab({ onLoad }: AssetsTabProps) {
   const { t, language } = useLanguage();
   const [assetsData, setAssetsData] = useState<AssetsApiResponse | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
@@ -52,11 +56,30 @@ export default function AssetsTab() {
   const fetchAssets = async (url?: string) => {
     try {
       setLoading(true);
+      // Prefer snapshot (server prefetch) when no pagination link is provided
+      if (!url) {
+        try {
+          const r = await fetch('/api/v2/home/assets-pools');
+          const j = await r.json();
+          const assets = j?.data?.assets;
+          if (j?.success && assets?._embedded?.records) {
+            const data = assets as AssetsApiResponse;
+            setAssetsData(data);
+            onLoad?.(data);
+            setLoading(false);
+            return;
+          }
+        } catch {
+          /* fallback to direct horizon */
+        }
+      }
+
       const apiUrl = url || 'https://api.testnet.minepi.com/assets?limit=100';
       const cacheKey = `assets_${btoa(apiUrl)}`;
       const cached = getCached(cacheKey);
       if (cached) {
         setAssetsData(cached);
+        onLoad?.(cached);
         setLoading(false);
         return;
       }
@@ -65,6 +88,7 @@ export default function AssetsTab() {
       const data: AssetsApiResponse = await response.json();
       setCached(cacheKey, data);
       setAssetsData(data);
+      onLoad?.(data);
     } catch (err) {
       setError(`Failed to fetch assets data: ${err instanceof Error ? err.message : String(err)}`);
     } finally {
@@ -97,7 +121,8 @@ export default function AssetsTab() {
   if (error) return <div className="py-8 text-red-500 text-sm">{error}</div>;
   if (!assetsData) return <div className="py-8 text-sm">No assets data</div>;
 
-  const filtered = (assetsData._embedded?.records || []).filter(a =>
+  const records = assetsData._embedded?.records || [];
+  const filtered = records.filter(a =>
     (a.asset_code || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
     (a.asset_issuer || '').toLowerCase().includes(searchQuery.toLowerCase())
   );
@@ -113,6 +138,16 @@ export default function AssetsTab() {
         />
       </div>
       <div className="overflow-x-auto">
+        {records.length === 0 ? (
+          <div className="py-12 text-center">
+            <p className="text-sm text-muted-foreground mb-2">No custom assets found on Pi Network Mainnet.</p>
+            <p className="text-xs text-muted-foreground">The /assets endpoint returned empty — no tokens have been issued on mainnet yet.</p>
+          </div>
+        ) : filtered.length === 0 ? (
+          <div className="py-12 text-center">
+            <p className="text-sm text-muted-foreground">No assets match your search.</p>
+          </div>
+        ) : (
         <Table>
           <TableHeader>
             <TableRow>
@@ -163,13 +198,16 @@ export default function AssetsTab() {
             ))}
           </TableBody>
         </Table>
+        )}
       </div>
       <div className="flex items-center justify-between mt-4">
         <span className="text-xs text-muted-foreground">{t('assets.testnet_warning')}</span>
+        {records.length > 0 && (
         <div className="flex gap-2">
           <Button variant="outline" size="sm" disabled={!assetsData._links.prev} onClick={handlePrevPage}>Previous</Button>
           <Button variant="outline" size="sm" disabled={!assetsData._links.next} onClick={handleNextPage}>Next</Button>
         </div>
+        )}
       </div>
     </div>
   );
