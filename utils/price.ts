@@ -2,7 +2,7 @@ let lastGoodPrice: number | null = null;
 
 export const fetchPiPrice = async (): Promise<number | null> => {
     try {
-      const response = await fetch('https://www.zyrachain.org/data/pi-price');
+      const response = await fetch('https://api.zyrachain.org/data/pi-price');
       if (response.ok) {
         const data = await response.json();
         if (data && data.data && data.data[0]) {

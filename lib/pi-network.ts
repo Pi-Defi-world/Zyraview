@@ -1,4 +1,4 @@
-// Pi Network Backend Service - Following Official Pi Network SDK Guidelines
+﻿// Pi Network Backend Service - Following Official Pi Network SDK Guidelines
 import { 
   PaymentDTO, 
 } from '../types/index';
@@ -50,37 +50,37 @@ export interface PiPaymentCallbacks {
 export const LISTING_PAYMENTS = {
   company: {
     amount: 100, // 100 Pi for companies
-    memo: "Company listing fee for zyraview",
+    memo: "Company listing fee for Zyrachain",
     type: "company" as const
   },
   business: {
     amount: 20, // 20 Pi for businesses (updated from backend analysis)
-    memo: "Business listing fee for zyraview",
+    memo: "Business listing fee for Zyrachain",
     type: "business" as const
   },
   startup: {
     amount: 50, // 50 Pi for startups
-    memo: "Startup listing fee for zyraview",
+    memo: "Startup listing fee for Zyrachain",
     type: "startup" as const
   },
   community: {
     amount: 50, // 50 Pi for communities
-    memo: "Community listing fee for zyraview",
+    memo: "Community listing fee for Zyrachain",
     type: "community" as const
   },
   influencer: {
     amount: 50, // 50 Pi for influencers
-    memo: "Influencer listing fee for zyraview",
+    memo: "Influencer listing fee for Zyrachain",
     type: "influencer" as const
   },
   update: {
     amount: 80, // 80 Pi for updates
-    memo: "Listing update fee for zyraview",
+    memo: "Listing update fee for Zyrachain",
     type: "update" as const
   },
   oracle_api: {
     amount: 100,
-    memo: "Oracle API key purchase for zyraview",
+    memo: "Oracle API key purchase for Zyrachain",
     type: "oracle_api" as const
   }
 } as const;

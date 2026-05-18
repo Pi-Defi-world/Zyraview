@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import Link from 'next/link';
 import { 
   Github, 
@@ -27,7 +27,7 @@ const GlobalFooter: React.FC = () => {
             {/* Company Info - Takes 2 columns on large screens */}
             <div className="space-y-6 lg:col-span-2">
               <div className="space-y-4">
-                <h3 className="text-lg font-semibold text-foreground font-heading">Zyraview</h3>
+                <h3 className="text-lg font-semibold text-foreground font-heading">Zyrachain</h3>
                 <p className="text-sm text-muted-foreground max-w-md leading-relaxed">
                   Your comprehensive Pi Network ecosystem and community hub. Explore transactions, blocks, and engage with the Pi ecosystem.
                 </p>
@@ -136,7 +136,7 @@ const GlobalFooter: React.FC = () => {
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
             {/* Copyright */}
             <div className="text-sm text-muted-foreground">
-                            &copy; {new Date().getFullYear()} Zyraview. All rights reserved.
+                            &copy; {new Date().getFullYear()} Zyrachain. All rights reserved.
             </div>
             
             {/* Legal Links */}

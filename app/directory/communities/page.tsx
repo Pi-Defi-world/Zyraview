@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { usePageMetadata } from '@/context/pagemetadataContext';
@@ -57,7 +57,7 @@ export default function DirectoryCommunitiesPage() {
 
   useEffect(() => {
     setHeading('Community listings');
-    setTitle('Community listings | Zyraview');
+    setTitle('Community listings | Zyrachain');
     setDescription('Paid community directory with live Telegram member counts when available.');
   }, [setHeading, setTitle, setDescription]);
 

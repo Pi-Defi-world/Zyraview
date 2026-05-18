@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
@@ -50,7 +50,7 @@ const UpdateListingPage: React.FC = () => {
 
   React.useEffect(() => {
     setHeading('Update Listing');
-    setTitle('Listing Update On Zyraview');
+    setTitle('Listing Update On Zyrachain');
     setDescription('Update your existing listing information in our Pi Network ecosystem Data center');
   }, [setHeading, setTitle, setDescription]);
 
@@ -334,7 +334,7 @@ const UpdateListingPage: React.FC = () => {
                           type="url"
                         value={formData.updatedInfo.website}
                         onChange={(e) => handleUpdatedInfoChange('website', e.target.value)}
-                        placeholder="https://zyraview.app"
+                        placeholder="https://Zyrachain.app"
                       />
                   </div>
 

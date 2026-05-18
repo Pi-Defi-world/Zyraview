@@ -1,6 +1,6 @@
-import { NextRequest, NextResponse } from 'next/server';
+﻿import { NextRequest, NextResponse } from 'next/server';
 
-const SERVER_URL = process.env.SERVER_URL || 'https://zyraview-server.onrender.com';
+const SERVER_URL = process.env.SERVER_URL || 'https://Zyrachain-server.onrender.com';
 
 export async function GET(request: NextRequest) {
   try {

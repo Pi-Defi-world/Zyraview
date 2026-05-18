@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import Link from 'next/link';
 import { useEffect } from 'react';
@@ -11,7 +11,7 @@ export default function DirectoryHubPage() {
 
   useEffect(() => {
     setHeading('Listing directory');
-    setTitle('Listing directory | Zyraview');
+    setTitle('Listing directory | Zyrachain');
     setDescription('Paid Pi Network community and influencer listings with live social stats.');
   }, [setHeading, setTitle, setDescription]);
 
@@ -24,7 +24,7 @@ export default function DirectoryHubPage() {
             Listing directory
           </h1>
           <p className="text-muted-foreground max-w-2xl mx-auto">
-            Communities and influencers submitted through Zyraview listings. Stats load from X and Telegram when configured on the server.
+            Communities and influencers submitted through Zyrachain listings. Stats load from X and Telegram when configured on the server.
           </p>
         </div>
 

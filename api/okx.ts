@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL_OKX = 'https://www.zyrachain.org';
+const BASE_URL_OKX = 'https://api.zyrachain.org/';
 const PRICE_TTL_MS = 30_000; // 30 seconds
 const LS_KEY = 'okx_market';
 

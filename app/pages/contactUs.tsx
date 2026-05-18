@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -86,7 +86,7 @@ const ContactUs: React.FC = () => {
                   <Mail className="h-5 w-5 text-muted-foreground mt-0.5" />
                   <div>
                     <h4 className="font-medium">{getTranslation('contact')}</h4>
-                    <p className="text-sm text-muted-foreground">contact@zyraview.app</p>
+                    <p className="text-sm text-muted-foreground">zyrachains@gmail.com</p>
                   </div>
                 </div>
               </CardContent>

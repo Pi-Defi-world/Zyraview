@@ -1,4 +1,4 @@
-import React from "react";
+﻿import React from "react";
 import "./globals.css";
 import GlobalFooter from "@/components/GlobalFooter";
 import { PageMetadataProvider } from "@/context/pagemetadataContext";
@@ -15,10 +15,10 @@ import MobilePiWelcome from "@/components/MobilePiWelcome";
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL || 'localhost:3000'),
   title: {
-    default: 'Zyraview',
-    template: '%s | Zyraview'
+    default: 'Zyrachain',
+    template: '%s | Zyrachain'
   },
-  description: 'Zyraview is a data-driven platform for Pi Network enthusiasts, offering resources, events, and a vibrant ecosystem to connect and grow together.',
+  description: 'Zyrachain is a data-driven platform for Pi Network enthusiasts, offering resources, events, and a vibrant ecosystem to connect and grow together.',
 };
 
 export const viewport: Viewport = {

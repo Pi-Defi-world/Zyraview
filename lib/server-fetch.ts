@@ -9,7 +9,7 @@ export type SnapshotResponse<T = unknown> = {
 
 export async function fetchSnapshot<T = unknown>(
   segment: string,
-  revalidateSeconds = 60
+  revalidateSeconds = 10
 ): Promise<SnapshotResponse<T>> {
   const base = getBackendUrl();
   const url = `${base}/api/v2/home/${encodeURIComponent(segment)}`;

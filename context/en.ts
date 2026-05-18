@@ -1,4 +1,4 @@
-export const language_en={
+﻿export const language_en={
     'nav.home': 'Home',
     'nav.cexs': 'CEXs & Core Team',
     'nav.operations': 'Operations',
@@ -574,7 +574,7 @@ export const language_en={
 
     // Documentation Pages Translations
     'docs.heading': 'Developer Documentation',
-    'docs.title': 'Docs & API - Zyraview',
+    'docs.title': 'Docs & API - Zyrachain',
     'docs.description': 'Developer documentation and API endpoints for integrating Pi Network data into your applications.',
     'docs.hero_subtitle': 'Build amazing applications with Pi Network data. Access real-time blockchain information, DApp listings, and community features through our comprehensive APIs.',
     'docs.features.real_time': 'Real-time Data',
@@ -660,32 +660,32 @@ export const language_en={
 
     // Terms of Service
     'terms.heading': 'Terms of Service',
-    'terms.title': 'Terms of Service - Zyraview',
-    'terms.description': 'Terms and conditions governing the use of Zyraview services and platform.',
+    'terms.title': 'Terms of Service - Zyrachain',
+    'terms.description': 'Terms and conditions governing the use of Zyrachain services and platform.',
     'terms.section1.title': 'Acceptance of Terms',
-    'terms.section1.content': 'By accessing and using Zyraview ("the Service"), you accept and agree to be bound by the terms and provision of this agreement. If you do not agree to abide by the above, please do not use this service.',
+    'terms.section1.content': 'By accessing and using Zyrachain ("the Service"), you accept and agree to be bound by the terms and provision of this agreement. If you do not agree to abide by the above, please do not use this service.',
     'terms.section2.title': 'Use License',
-    'terms.section2.content': 'Permission is granted to temporarily download one copy of the materials (information or software) on Zyraview\'s website for personal, non-commercial transitory viewing only. This is the grant of a license, not a transfer of title, and under this license you may not: modify or copy the materials; use the materials for any commercial purpose or for any public display; attempt to reverse engineer any software contained on Zyraview\'s website; remove any copyright or other proprietary notations from the materials; or transfer the materials to another person or "mirror" the materials on any other server.',
+    'terms.section2.content': 'Permission is granted to temporarily download one copy of the materials (information or software) on Zyrachain\'s website for personal, non-commercial transitory viewing only. This is the grant of a license, not a transfer of title, and under this license you may not: modify or copy the materials; use the materials for any commercial purpose or for any public display; attempt to reverse engineer any software contained on Zyrachain\'s website; remove any copyright or other proprietary notations from the materials; or transfer the materials to another person or "mirror" the materials on any other server.',
     'terms.section3.title': 'Disclaimer',
-    'terms.section3.content': 'The materials on Zyraview\'s website are provided on an \'as is\' basis. Zyraview makes no warranties, expressed or implied, and hereby disclaims and negates all other warranties including without limitation, implied warranties or conditions of merchantability, fitness for a particular purpose, or non-infringement of intellectual property or other violation of rights.',
+    'terms.section3.content': 'The materials on Zyrachain\'s website are provided on an \'as is\' basis. Zyrachain makes no warranties, expressed or implied, and hereby disclaims and negates all other warranties including without limitation, implied warranties or conditions of merchantability, fitness for a particular purpose, or non-infringement of intellectual property or other violation of rights.',
     'terms.section4.title': 'Limitations',
-    'terms.section4.content': 'In no event shall Zyraview or its suppliers be liable for any damages (including, without limitation, damages for loss of data or profit, or due to business interruption) arising out of the use or inability to use the materials on Zyraview\'s website, even if Zyraview or a Zyraview authorized representative has been notified orally or in writing of the possibility of such damage.',
+    'terms.section4.content': 'In no event shall Zyrachain or its suppliers be liable for any damages (including, without limitation, damages for loss of data or profit, or due to business interruption) arising out of the use or inability to use the materials on Zyrachain\'s website, even if Zyrachain or a Zyrachain authorized representative has been notified orally or in writing of the possibility of such damage.',
     'terms.section5.title': 'Accuracy of Materials',
-    'terms.section5.content': 'The materials appearing on Zyraview\'s website could include technical, typographical, or photographic errors. Zyraview does not warrant that any of the materials on its website are accurate, complete or current. Zyraview may make changes to the materials contained on its website at any time without notice.',
+    'terms.section5.content': 'The materials appearing on Zyrachain\'s website could include technical, typographical, or photographic errors. Zyrachain does not warrant that any of the materials on its website are accurate, complete or current. Zyrachain may make changes to the materials contained on its website at any time without notice.',
     'terms.section6.title': 'Links',
-    'terms.section6.content': 'Zyraview has not reviewed all of the sites linked to its website and is not responsible for the contents of any such linked site. The inclusion of any link does not imply endorsement by Zyraview of the site. Use of any such linked website is at the user\'s own risk.',
+    'terms.section6.content': 'Zyrachain has not reviewed all of the sites linked to its website and is not responsible for the contents of any such linked site. The inclusion of any link does not imply endorsement by Zyrachain of the site. Use of any such linked website is at the user\'s own risk.',
     'terms.section7.title': 'Modifications',
-    'terms.section7.content': 'Zyraview may revise these terms of service for its website at any time without notice. By using this website you are agreeing to be bound by the then current version of these Terms of Service.',
+    'terms.section7.content': 'Zyrachain may revise these terms of service for its website at any time without notice. By using this website you are agreeing to be bound by the then current version of these Terms of Service.',
     'terms.section8.title': 'Governing Law',
     'terms.section8.content': 'These terms and conditions are governed by and construed in accordance with the laws and you irrevocably submit to the exclusive jurisdiction of the courts in that location.',
     'terms.contact.title': 'Contact Information',
     'terms.contact.content': 'If you have any questions about these Terms of Service, please contact us at:',
-    'terms.contact.email': 'legal@zyraview.app',
-    'contact.email': 'contact@zyraview.app',
+    'terms.contact.email': 'zyrachains@gmail.com',
+    'contact.email': 'zyrachains@gmail.com',
 
     // Privacy Policy
     'privacy.heading': 'Privacy Policy',
-    'privacy.title': 'Privacy Policy - Zyraview Pi Network Ecosystem Hub',
+    'privacy.title': 'Privacy Policy - Zyrachain Pi Network Ecosystem Hub',
     'privacy.description': 'How we collect, use, and protect your personal information.',
     'privacy.section1.title': 'Information We Collect',
     'privacy.section1.content': 'We collect information you provide directly to us, such as when you create an account, contact us, or use our services. This may include your name, email address, wallet addresses, and any other information you choose to provide. We also automatically collect certain information when you use our services, including your IP address, browser type, operating system, and usage patterns.',
@@ -703,11 +703,11 @@ export const language_en={
     'privacy.section7.content': 'We may update this privacy policy from time to time. We will notify you of any changes by posting the new policy on this page and updating the "last updated" date.',
     'privacy.contact.title': 'Contact Us',
     'privacy.contact.content': 'If you have any questions about this Privacy Policy, please contact us at:',
-    'privacy.contact.email': 'privacy@zyraview.app',
+    'privacy.contact.email': 'zyrachains@gmail.com',
 
     // Report Scam
     'report.heading': 'Report Scam or Fraudulent Activity',
-    'report.title': 'Report Scam - Zyraview Pi Network Ecosystem Hub',
+    'report.title': 'Report Scam - Zyrachain Pi Network Ecosystem Hub',
     'report.description': 'Report suspicious or fraudulent activities to help protect the Pi Network community.',
     'report.intro': 'If you have encountered a suspicious wallet address, project, or activity that appears to be fraudulent or a scam, please report it using the form below. Our team will review your submission and take appropriate action to protect the community.',
     'report.success_message': 'Thank you for your report! Our security team will review the information and take appropriate action. We appreciate your help in keeping the Pi Network ecosystem safe.',

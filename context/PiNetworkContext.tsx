@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { piListingPaymentService } from '../lib/pi-payment-frontend';
@@ -76,7 +76,7 @@ interface PiNetworkProviderProps {
 const SERVER_BASE_URL =
   process.env.NEXT_PUBLIC_SERVER_URL ||
   process.env.NEXT_PUBLIC_API_URL ||
-  'https://zyraview-server.onrender.com';
+  'https://Zyrachain-server.onrender.com';
 
 export function PiNetworkProvider({ children }: PiNetworkProviderProps) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);

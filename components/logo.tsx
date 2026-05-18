@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import Image from 'next/image';
 
 interface LogoProps {
@@ -16,7 +16,7 @@ const Logo: React.FC<LogoProps> = ({ className = '', size = 'md', showText = tru
 
   return (
     <div className={`flex items-center space-x-2 ${className}`}>
-      {/* Zyraview Logo Image */}
+      {/* Zyrachain Logo Image */}
       <div className={`${sizeClasses[size]} relative`}>
         <Image
           src="/dappify-logo.png"
@@ -29,7 +29,7 @@ const Logo: React.FC<LogoProps> = ({ className = '', size = 'md', showText = tru
       
       {showText && (
         <span className="text-sm md:text-base lg:text-lg font-bold text-foreground font-satoshi">
-          Zyraview
+          Zyrachain
         </span>
       )}
     </div>

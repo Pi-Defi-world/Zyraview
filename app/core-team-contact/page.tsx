@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 import React, { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -64,8 +64,8 @@ const CoreTeamPage: React.FC = () => {
 
   React.useEffect(() => {
     setHeading('Our Team');
-    setTitle('Team - Zyraview');
-    setDescription('Meet the developer and founding member behind Zyraview - the premier Pi Network data center and tokenization platform.');
+    setTitle('Team - Zyrachain');
+    setDescription('Meet the developer and founding member behind Zyrachain - the premier Pi Network data center and tokenization platform.');
   }, [setHeading, setTitle, setDescription]);
 
   const getInitials = (name: string) => {
@@ -81,7 +81,7 @@ const CoreTeamPage: React.FC = () => {
             Our Team
           </h1>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-            Meet the passionate developers and founding members who are building the future of the Pi Network ecosystem through Zyraview.
+            Meet the passionate developers and founding members who are building the future of the Pi Network ecosystem through Zyrachain.
           </p>
         </div>
 

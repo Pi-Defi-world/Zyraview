@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useCallback, useEffect, useState } from 'react';
 import { usePageMetadata } from '@/context/pagemetadataContext';
@@ -53,7 +53,7 @@ export default function DirectoryInfluencersPage() {
 
   useEffect(() => {
     setHeading('Influencer listings');
-    setTitle('Influencer listings | Zyraview');
+    setTitle('Influencer listings | Zyrachain');
     setDescription('Paid influencer directory with live X follower counts when available.');
   }, [setHeading, setTitle, setDescription]);
 

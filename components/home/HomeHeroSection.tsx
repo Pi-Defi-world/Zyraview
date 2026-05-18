@@ -23,7 +23,7 @@ const metricConfig = [
 ] as const;
 
 export async function HomeHeroSection() {
-  const res = await fetchSnapshot<HeroPayload>('hero', 30);
+  const res = await fetchSnapshot<HeroPayload>('hero', 10);
   if (!res.success || !res.data) {
     return (
       <section className="rounded-xl border border-dashed border-border p-6 text-sm text-muted-foreground text-center">

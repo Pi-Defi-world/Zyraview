@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -25,7 +25,7 @@ export default function NotFound() {
             <span className="text-2xl">404</span>
           </div>
           <CardTitle className="text-2xl font-bold text-slate-900 dark:text-white">
-            Welcome To Zyraview
+            Welcome To Zyrachain
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">

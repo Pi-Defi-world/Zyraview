@@ -1,5 +1,5 @@
 
-export const BASE_URL_API = 'https://www.zyrachain.org';
+export const BASE_URL_API = 'https://api.zyrachain.org/';
 export const PiscanAPI={
     TopAccount:BASE_URL_API+'/top-accounts',
     AccountsDistribution:BASE_URL_API+'/accounts/distribution',

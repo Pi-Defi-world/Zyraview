@@ -14,7 +14,7 @@ export async function GET(
     status: upstream.status,
     headers: {
       'Content-Type': upstream.headers.get('Content-Type') || 'application/json',
-      'Cache-Control': upstream.headers.get('Cache-Control') || 'public, max-age=30',
+      'Cache-Control': upstream.headers.get('Cache-Control') || 'public, max-age=10',
     },
   });
   return res;

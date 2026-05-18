@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useEffect } from "react";
 import { usePageMetadata } from "@/context/pagemetadataContext";
@@ -59,7 +59,7 @@ export default function TermsOfService() {
               <div>
                 <p className="font-medium">Important Notice</p>
                 <p className="text-sm mt-1">
-                  By accessing and using Zyraview, you agree to be bound by these Terms of Service. 
+                  By accessing and using Zyrachain, you agree to be bound by these Terms of Service. 
                   If you do not agree to these terms, please do not use our services.
                 </p>
               </div>
@@ -169,7 +169,7 @@ export default function TermsOfService() {
             {/* Footer */}
             <div className="border-t pt-6 mt-8">
               <p className="text-sm text-muted-foreground text-center">
-                These terms are effective as of the date listed above and apply to all users of Zyraview services.
+                These terms are effective as of the date listed above and apply to all users of Zyrachain services.
               </p>
             </div>
           </CardContent>

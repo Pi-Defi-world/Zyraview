@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -182,7 +182,7 @@ export function MobilePiWelcome({ onAuthSuccess, onClose }: MobilePiWelcomeProps
           <div className="bg-primary w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
             <Plug className="h-8 w-8 text-primary-foreground" />
           </div>
-          <CardTitle className="text-xl font-bold text-foreground">Welcome to Zyraview</CardTitle>
+          <CardTitle className="text-xl font-bold text-foreground">Welcome to Zyrachain</CardTitle>
           <p className="text-muted-foreground text-sm">
             {showReason}
           </p>

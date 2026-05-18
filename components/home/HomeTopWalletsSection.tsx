@@ -1,9 +1,11 @@
 import Link from 'next/link';
+import { Suspense } from 'react';
 import { fetchSnapshot } from '@/lib/server-fetch';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
-import { Wallet, ExternalLink, ArrowUpRight } from 'lucide-react';
+import { Wallet, ExternalLink } from 'lucide-react';
+import { HomeRealtimeTransactions } from '@/components/home/HomeRealtimeTransactions';
 
 type TopWalletsPayload = {
   wallets: Array<{
@@ -84,39 +86,25 @@ export async function HomeTopWalletsSection() {
         </CardContent>
       </Card>
 
-      {/* Quick Stats sidebar */}
-      <Card className="lg:col-span-1 border-border/60 bg-card/40">
-        <CardHeader className="pb-2 px-4 pt-4 sm:px-5 sm:pt-5">
-          <CardTitle className="text-sm font-semibold flex items-center gap-2">
-            <ArrowUpRight className="h-4 w-4 text-emerald-500" />
-            Wallet Summary
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="px-4 pb-4 sm:px-5 sm:pb-5 space-y-3 text-sm">
-          <div className="flex justify-between">
-            <span className="text-muted-foreground">Tracked Wallets</span>
-            <span className="font-semibold">{wallets.length}</span>
-          </div>
-          <div className="flex justify-between">
-            <span className="text-muted-foreground">Total Tracked Balance</span>
-            <span className="font-semibold">{totalBalance.toLocaleString(undefined, { maximumFractionDigits: 0 })} Pi</span>
-          </div>
-          <div className="pt-2 border-t border-border/30">
-            {(['CEX', 'Core Team', 'Generated'] as const).map((cat) => {
-              const count = wallets.filter((w) => w.category === cat).length;
-              const bal = wallets.filter((w) => w.category === cat).reduce((s, w) => s + (w.balance || 0), 0);
-              return (
-                <div key={cat} className="flex justify-between py-1">
-                  <span className="text-muted-foreground">{cat}</span>
-                  <span className="font-medium text-xs">
-                    {count} wallets / {bal.toLocaleString(undefined, { maximumFractionDigits: 0 })} Pi
-                  </span>
-                </div>
-              );
-            })}
-          </div>
-        </CardContent>
-      </Card>
+      {/* Real-time transaction feed */}
+      <div className="lg:col-span-1">
+        <Suspense fallback={
+          <Card className="border-border/60 bg-card/40">
+            <CardHeader className="pb-2 px-4 pt-4 sm:px-5 sm:pt-5">
+              <CardTitle className="text-sm font-semibold">Live Transactions</CardTitle>
+            </CardHeader>
+            <CardContent className="px-4 pb-4 sm:px-5 sm:pb-5">
+              <div className="animate-pulse space-y-2">
+                {Array.from({ length: 5 }).map((_, i) => (
+                  <div key={i} className="h-8 bg-muted rounded" />
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        }>
+          <HomeRealtimeTransactions />
+        </Suspense>
+      </div>
     </section>
   );
 }

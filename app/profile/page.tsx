@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { useLanguage } from '@/context/languagecontext';
@@ -41,7 +41,7 @@ const ProfilePage: React.FC = () => {
 
   React.useEffect(() => {
     setHeading('Profile');
-    setTitle('Profile - Zyraview');
+    setTitle('Profile - Zyrachain');
     setDescription('Manage your profile and account settings');
   }, [setHeading, setTitle, setDescription]);
 

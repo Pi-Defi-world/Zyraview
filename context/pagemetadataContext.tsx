@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import React, { createContext, useContext, useEffect, useState } from "react";
 
 
@@ -16,10 +16,10 @@ interface PageMetadataContextProps {
 const PageMetadataContext = createContext<PageMetadataContextProps | undefined>(undefined);
 
 export const PageMetadataProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [title, setTitleState] = useState("Zyraview");
+  const [title, setTitleState] = useState("Zyrachain");
   const [description, setDescription] = useState("Pi Network Data Center");
   const [updateTime, setUpdateTime] = useState(new Date().toLocaleString());
-  const [heading, setHeading] = useState("Welcome to Zyraview");
+  const [heading, setHeading] = useState("Welcome to Zyrachain");
   const setTitle = (newTitle: string) => {
     document.title = newTitle; 
     setTitleState(newTitle);

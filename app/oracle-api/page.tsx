@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
@@ -15,7 +15,7 @@ import { Loader2, KeyRound, Copy, Check } from 'lucide-react';
 const BASE =
   process.env.NEXT_PUBLIC_SERVER_URL ||
   process.env.NEXT_PUBLIC_API_URL ||
-  'https://zyraview-server.onrender.com';
+  'https://Zyrachain-server.onrender.com';
 
 export default function OracleApiPage() {
   const { setTitle, setDescription, setHeading } = usePageMetadata();
@@ -102,7 +102,7 @@ export default function OracleApiPage() {
       <div className="max-w-3xl mx-auto space-y-8">
         <div>
           <Badge variant="secondary" className="mb-2">
-            Zyraview service
+            Zyrachain service
           </Badge>
           <h1 className="text-3xl font-bold font-heading text-foreground">Pi Price Oracle API</h1>
           <p className="text-muted-foreground mt-2">

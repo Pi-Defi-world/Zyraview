@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
@@ -438,7 +438,7 @@ const GetListedPage: React.FC = () => {
 
         {/* Footer Info */}
         <div className="text-center mt-12 text-sm text-muted-foreground">
-          <p>Need help? Contact us at <a href="mailto:listings@zyraview.app" className="text-primary hover:underline">listings@zyraview.app</a></p>
+          <p>Need help? Contact us at <a href="mailto:zyrachains@gmail.com" className="text-primary hover:underline">zyrachains@gmail.com</a></p>
         </div>
       </div>
     </div>

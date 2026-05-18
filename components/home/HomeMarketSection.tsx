@@ -16,7 +16,7 @@ type HeroPayload = {
 };
 
 export async function HomeMarketSection() {
-  const res = await fetchSnapshot<HeroPayload>('hero', 30);
+  const res = await fetchSnapshot<HeroPayload>('hero', 10);
   if (!res.success || !res.data) return null;
 
   const d = res.data;

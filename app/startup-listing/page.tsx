@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
@@ -325,7 +325,7 @@ const StartupListingPage: React.FC = () => {
                         type="email"
                         value={formData.email}
                         onChange={(e) => handleInputChange('email', e.target.value)}
-                        placeholder="contact@zyraview.app"
+                        placeholder="zyrachains@gmail.com"
                         required
                       />
                 </div>
@@ -337,7 +337,7 @@ const StartupListingPage: React.FC = () => {
                         type="url"
                         value={formData.website}
                         onChange={(e) => handleInputChange('website', e.target.value)}
-                        placeholder="https://zyraview.app"
+                        placeholder="https://Zyrachain.app"
                       />
                     </div>
                   </div>

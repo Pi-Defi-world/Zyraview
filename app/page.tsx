@@ -5,6 +5,7 @@ import { HomeMarketSection } from '@/components/home/HomeMarketSection';
 import { HomeEcosystemSection } from '@/components/home/HomeEcosystemSection';
 import { HomePulseSection } from '@/components/home/HomePulseSection';
 import { HomeTopWalletsSection } from '@/components/home/HomeTopWalletsSection';
+import { LivePriceWidget } from '@/components/home/LivePriceWidget';
 
 export default function Page() {
   return (
@@ -13,6 +14,11 @@ export default function Page() {
       <Suspense fallback={<SectionSkeleton className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-2" count={7} />}>
         <HomeHeroSection />
       </Suspense>
+
+      {/* Real-time price strip — polls every 5s */}
+      <div className="flex items-center justify-between rounded-lg border border-emerald-200 dark:border-emerald-800 bg-emerald-50/50 dark:bg-emerald-950/20 px-3 sm:px-4 py-2">
+        <LivePriceWidget />
+      </div>
 
       {/* Market Deep Dive — price, supply, network */}
       <section>
